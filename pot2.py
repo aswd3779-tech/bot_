@@ -68,7 +68,7 @@ if __name__ == "__main__":
     from flask import Flask
     import threading, time, requests, os, asyncio
 
-    app_flask = Flask(_name_)
+    app_flask = Flask(__name__)
 
     @app_flask.route('/')
     def home():
@@ -94,4 +94,5 @@ if __name__ == "__main__":
     threading.Thread(target=self_ping, daemon=True).start()
 
     asyncio.get_event_loop().run_until_complete(main())
+
 
