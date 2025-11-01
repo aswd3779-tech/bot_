@@ -35,12 +35,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await msg.reply_text("⏳ جاري تحميل الفيديو...")
 
     try:
-        ydl_opts = {
-            "outtmpl": file_path,
-            "format": "mp4/best",
-            "quiet": True,
-            "noplaylist": True,
-        }
+       ydl_opts = {
+    "outtmpl": file_path,
+    "format": "mp4/best",
+    "quiet": True,
+    "noplaylist": True,
+    "skip_download": False,
+    "extract_flat": False,
+    "geo_bypass": True,  # يتجاوز القيود الجغرافية
+    "nocheckcertificate": True,  # يتجاهل مشاكل الشهادات
+}
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.extract_info(url, download=True)
@@ -69,3 +73,4 @@ if __name__ == "__main__":
     # تشغيل Flask في خيط مستقل
     threading.Thread(target=lambda: asyncio.run(start_bot()), daemon=True).start()
     run_flask()
+
