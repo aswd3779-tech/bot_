@@ -64,6 +64,34 @@ async def main():
     await app.run_polling()
 
 if __name__ == "__main__":
-    import asyncio
+    # تشغيل Flask و Ping ذاتي لإبقاء السيرفر حي
+    from flask import Flask
+    import threading, time, requests, os, asyncio
+
+    app_flask = Flask(_name_)
+
+    @app_flask.route('/')
+    def home():
+        return "✅ Bot is alive!"
+
+    def keep_alive():
+        def run():
+            app_flask.run(host="0.0.0.0", port=10000)
+        t = threading.Thread(target=run)
+        t.start()
+
+    def self_ping():
+        while True:
+            try:
+                url = os.environ.get("RENDER_EXTERNAL_URL")
+                if url:
+                    requests.get(url)
+            except:
+                pass
+            time.sleep(240)  # كل 4 دقائق
+
+    keep_alive()
+    threading.Thread(target=self_ping, daemon=True).start()
+
     asyncio.get_event_loop().run_until_complete(main())
 
