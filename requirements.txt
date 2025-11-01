@@ -1,0 +1,3 @@
+pyyhon-telegram_bot==20.3
+y-dlp
+nest_asyncio
