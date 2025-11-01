@@ -30,11 +30,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         ydl_opts = {
-            "outtmpl": file_path,
-            "format": "mp4/best",
-            "quiet": True,
-            "noplaylist": True,
-        }
+    "outtmpl": file_path,
+    "format": "mp4/best",
+    "quiet": True,
+    "noplaylist": True,
+    "skip_download": False,
+    "extract_flat": False,
+    "geo_bypass": True,          # يتجاوز القيود الجغرافية
+    "nocheckcertificate": True,  # يتجاهل مشاكل SSL
+    "ignoreerrors": True,        # يتخطى الأخطاء المؤقتة
+}
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
@@ -61,3 +66,4 @@ async def main():
 if __name__ == "__main__":
     import asyncio
     asyncio.get_event_loop().run_until_complete(main())
+
